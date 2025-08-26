@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts;
+using Manager;
 
 namespace Client
 {
@@ -12,22 +14,26 @@ namespace Client
     {
         static void Main(string[] args)
         {
-         // Test 
-            Koncert koncert = new Koncert(1, "Bukinski", DateTime.Now, "Mladenovo", 200.0);
-            Console.WriteLine("Koncert br.{0} {1} {2:dd.MM.yyyy} {3} {4}", koncert.Id, koncert.Naziv, koncert.VremePocetka, koncert.Lokacija, koncert.CenaKarte);
-            Console.ReadLine();
 
-         // Program
+            string srvCertCN = "WCFService";
+
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:9999/Service";
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            using (Client proxy = new Client(binding, new EndpointAddress(new Uri(address))))
+            X509Certificate2 srvCert = CertificateManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
+            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Receiver"), new X509CertificateEndpointIdentity(srvCert));
+            
+            using (Client proxy = new Client(binding, address))
             {
-                //proxy.DodajKoncert();
+                // TEST TEST TEST
+                proxy.DodajKoncert();
+                Console.WriteLine("DodajKoncert() finished. >> ENTER");
+                
+                Console.ReadLine();
             }
 
+            Console.WriteLine(" Korisnik iskljucen: >> ENTER");
             Console.ReadLine();
-
         }
     }
 }

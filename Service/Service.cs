@@ -9,9 +9,12 @@ namespace Service
 {
     public class Service : IService
     {
+        // users/
+        // concerts 
+        // reservations
         public void DodajKoncert() // TODO: dodajKoncert
         {
-            throw new NotImplementedException();
+            Console.WriteLine("KONCERT USPESNO DODAT!!!");
         }
 
         public void IzmeniKoncert()

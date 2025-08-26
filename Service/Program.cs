@@ -1,8 +1,14 @@
 ﻿using Contracts;
+using Manager;
+using SecurityManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,18 +18,48 @@ namespace Service
     {
         static void Main(string[] args)
         {
+			string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:9999/Service";
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
+            string address = "net.tcp://localhost:9999/Receiver";
             ServiceHost host = new ServiceHost(typeof(Service));
             host.AddServiceEndpoint(typeof(IService), binding, address);
 
-            host.Open();
+            host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+            host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
 
-            Console.WriteLine("Host opened! ");
+            host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+
+            host.Credentials.ServiceCertificate.Certificate = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+
+            if(host.Credentials.ServiceCertificate.Certificate == null)
+            {
+                Console.WriteLine(" Service started from Wrong Machine. (WCFService expected)\n >> ENTER");
+                Console.ReadLine();
+            }
+            else
+            {
+                try
+                {
+                    host.Open();
+                    Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
+                    Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("[ERROR] {0}", e.Message);
+                    Console.WriteLine("[StackTrace] {0}", e.StackTrace);
+                }
+                finally
+                {
+                    host.Close();
+                }
+            }
+
+            Console.WriteLine(" Service Stopped.\n >> ENTER");
             Console.ReadLine();
-
-            host.Close();
         }
     }
 }
