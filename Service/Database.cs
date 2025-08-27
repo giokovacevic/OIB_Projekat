@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class Database
+    public class Database // TODO: Sredi!!
     {
         internal static Dictionary<string, Korisnik> korisnici = new Dictionary<string, Korisnik>();
         internal static Dictionary<int, Koncert> koncerti = new Dictionary<int, Koncert>();

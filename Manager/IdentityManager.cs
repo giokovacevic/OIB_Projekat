@@ -18,7 +18,7 @@ namespace Manager
             }
             else
             {
-                throw new InvalidOperationException("Invalid CN in SubjectName"); // TODO: Log?
+                throw new InvalidOperationException("Invalid CN in SubjectName");
             }
         }
         public static string extractRole(System.Security.Principal.IIdentity identity) 

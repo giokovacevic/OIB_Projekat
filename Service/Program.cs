@@ -45,7 +45,7 @@ namespace Service
 
             if (host.Credentials.ServiceCertificate.Certificate == null)
             {
-                Console.WriteLine(" Service started from Wrong Machine. (WCFService expected)\n >> ENTER");
+                Console.WriteLine(" Servis je pokrenut sa pogrešne mašine. (WCFService оčekivan)\n >> ENTER");
                 Console.ReadLine();
             }
             else
@@ -53,13 +53,13 @@ namespace Service
                 try
                 {
                     host.Open();
-                    Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
+                    Console.WriteLine(" Server je pokrenut.\n >> ENTER (ZAUSTAVI) ...");
                     Console.ReadLine();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("[ERROR] {0}", e.Message);
-                    Console.WriteLine("[StackTrace] {0}", e.StackTrace);
+                    Console.WriteLine(" [ERROR] {0}", e.Message);
+                    Console.WriteLine(" [StackTrace] {0}", e.StackTrace);
                 }
                 finally
                 {
@@ -67,7 +67,7 @@ namespace Service
                 }
             }
 
-            Console.WriteLine(" Service Stopped.\n >> ENTER");
+            Console.WriteLine(" Servis je zaustavljen.\n >> ENTER");
             Console.ReadLine();
         }
     }

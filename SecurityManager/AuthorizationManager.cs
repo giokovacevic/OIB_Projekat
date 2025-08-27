@@ -9,17 +9,20 @@ namespace SecurityManager
 {
     public class AuthorizationManager
     {
-        public static bool isAdmin(System.Security.Principal.IIdentity identity) // TODO: isAdmin
+        const string ADMIN = "Admin";
+        const string KORISNIK = "Korisnik";
+        
+        public static bool isAdmin(System.Security.Principal.IIdentity identity)
         {
             string role = Manager.IdentityManager.extractRole(identity);
-            if (role.Equals("Admin")) return true;
+            if (role.Equals(ADMIN)) return true;
             return false;
         }
 
-        public static bool isKorisnik(System.Security.Principal.IIdentity identity) // TODO: isKorisnik
+        public static bool isKorisnik(System.Security.Principal.IIdentity identity)
         {
             string role = Manager.IdentityManager.extractRole(identity);
-            if (role.Equals("Korisnik")) return true;
+            if (role.Equals(KORISNIK)) return true;
             return false;
         }
     }

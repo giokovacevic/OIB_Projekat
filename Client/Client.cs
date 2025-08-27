@@ -38,7 +38,7 @@ namespace Client
             }
             catch(Exception exc)
             {
-                Console.WriteLine("DodajKoncert nije uspeo"); // TODO: Log
+                Console.WriteLine("DodajKoncert nije uspeo");
             }
         }
 
@@ -50,7 +50,7 @@ namespace Client
             }
             catch (Exception exc)
             {
-                Console.WriteLine("IzmeniKoncert nije uspeo: " + exc.Message); // TODO: Log
+                Console.WriteLine("IzmeniKoncert nije uspeo: " + exc.Message);
             }
         }
 

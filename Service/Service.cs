@@ -17,7 +17,7 @@ namespace Service
             
             if(userIdentity == null)
             {
-                throw new Exception("current user null"); //TODO: Log za currentUser: null
+                throw new Exception("current user was null"); 
             }
 
             if(AuthorizationManager.isAdmin(userIdentity))
@@ -25,16 +25,22 @@ namespace Service
                 if(!Database.koncerti.ContainsKey(koncert.Id))
                 {
                     Database.koncerti.Add(koncert.Id, koncert);
-                    Console.WriteLine("Koncert je dodat. (DodajKoncert)"); //TODO: Log
+                    Audit.uspesnoDodavanje(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv);
+                    
+                    Console.WriteLine("Koncert je dodat. (DodajKoncert)"); //TODO: IZBRISI
                 }
                 else
                 {
-                    Console.WriteLine("Koncert sa tim id-om vec postoji. (DodajKoncert)"); //TODO: Log
+                    Audit.neuspesnoDodavanje(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv, "Koncert već postoji.");
+                    
+                    Console.WriteLine("Koncert sa tim id-om vec postoji. (DodajKoncert)"); //TODO: IZBRISI
                 }   
             }
             else
             {
-                Console.WriteLine("Nije autorizovan za DodajKoncert()"); //TODO: Log
+                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Dodavanje koncerta.");
+                
+                Console.WriteLine("Nije autorizovan za DodajKoncert()"); //TODO: IZBRISI
             }
         }
 
@@ -54,21 +60,29 @@ namespace Service
                     if (Database.koncerti.ContainsKey(id))
                     {
                         Database.koncerti[id] = koncert;
-                        Console.WriteLine("Koncert sa je uspesno izmenjen. (IzmeniKoncert)"); //TODO: Log
+                        Audit.uspesnaIzmena(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv);
+
+                        Console.WriteLine("Koncert sa je uspesno izmenjen. (IzmeniKoncert)"); //TODO: IZBRISI
                     }
                     else
                     {
-                        Console.WriteLine("Koncert sa tim id-om ne postoji. (IzmeniKoncert)"); //TODO: Log
+                        Audit.neuspesnaIzmena(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv, "Nepostojeći koncert");
+
+                        Console.WriteLine("Koncert sa tim id-om ne postoji. (IzmeniKoncert)"); //TODO: IZBRISI
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Ne moze se menjati koncert sa razlicitim id-om (IzmeniKoncert)"); //TODO: Log
+                    Audit.neuspesnaIzmena(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv, "Nedozvoljena izmena Id-a");
+                    
+                    Console.WriteLine("Ne moze se menjati koncert sa razlicitim id-om (IzmeniKoncert)"); //TODO: IZBRISI
                 }
             }
             else
             {
-                Console.WriteLine("Nije autorizovan za IzmeniKoncert(). Mora biti Admin"); //TODO: Log
+                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Izmena koncerta.");
+
+                Console.WriteLine("Nije autorizovan za IzmeniKoncert(). Mora biti Admin"); //TODO: IZBRISI
             }
         }
 
