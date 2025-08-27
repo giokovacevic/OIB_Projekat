@@ -18,10 +18,11 @@ namespace SecurityManager
 
             if(!srvCert.Issuer.Equals(certificate.Issuer))
             {
-                throw new Exception();
+                Console.Write("Neuspesana autentifikacija");
+                throw new Exception("Failed to authenticate"); // TODO: Log za neuspesan auth kod servisa
             }
 
-            Console.WriteLine("Succesfully authenticated Service");
+            Console.WriteLine("Succesfully authenticated Service"); // TODO: Log za uspesan auth kod servisa
         }
     }
 }

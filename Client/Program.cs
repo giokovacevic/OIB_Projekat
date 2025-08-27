@@ -26,9 +26,14 @@ namespace Client
             using (Client proxy = new Client(binding, address))
             {
                 // TEST TEST TEST
-                proxy.DodajKoncert();
-                Console.WriteLine("DodajKoncert() finished. >> ENTER");
-                
+                proxy.DodajKoncert(new Koncert(10, "Blabla", DateTime.Now, "Mladenovo", 2.5));
+                proxy.DodajKoncert(new Koncert(10, "Blabla", DateTime.Now, "Mladenovo", 2.5));
+                proxy.IzmeniKoncert(10, new Koncert(10, "Tralala", DateTime.Now, "Bukin", 2.7));
+                proxy.IzmeniKoncert(7, new Koncert(7, "Tralala", DateTime.Now, "Bukin", 2.7));
+                proxy.IzmeniKoncert(11, new Koncert(10, "Tralala", DateTime.Now, "Bukin", 2.7));
+             
+              
+                Console.WriteLine("Client Zavrsio sa pozivanjem metoda.\n >> ENTER");
                 Console.ReadLine();
             }
 

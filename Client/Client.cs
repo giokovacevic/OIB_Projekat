@@ -30,14 +30,28 @@ namespace Client
             factory = this.CreateChannel();
         }
 
-        public void DodajKoncert()
+        public void DodajKoncert(Koncert koncert)
         {
-            factory.DodajKoncert();
+            try
+            {
+                factory.DodajKoncert(koncert);
+            }
+            catch(Exception exc)
+            {
+                Console.WriteLine("DodajKoncert nije uspeo"); // TODO: Log
+            }
         }
 
-        public void IzmeniKoncert()
+        public void IzmeniKoncert(int id, Koncert koncert)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.IzmeniKoncert(id, koncert);
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine("IzmeniKoncert nije uspeo: " + exc.Message); // TODO: Log
+            }
         }
 
         public void NapraviRezervaciju()

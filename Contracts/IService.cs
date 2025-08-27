@@ -11,9 +11,9 @@ namespace Contracts
     public interface IService
     {
         [OperationContract]
-        void DodajKoncert();
+        void DodajKoncert(Koncert koncert);
         [OperationContract]
-        void IzmeniKoncert();
+        void IzmeniKoncert(int id, Koncert koncert);
         [OperationContract]
         void NapraviRezervaciju();
         [OperationContract]

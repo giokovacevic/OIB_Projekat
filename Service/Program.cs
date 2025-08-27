@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,15 @@ namespace Service
 
             host.Credentials.ServiceCertificate.Certificate = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
 
-            if(host.Credentials.ServiceCertificate.Certificate == null)
+            ServiceSecurityAuditBehavior audit = new ServiceSecurityAuditBehavior();
+            audit.AuditLogLocation = AuditLogLocation.Application;
+            audit.ServiceAuthorizationAuditLevel = AuditLevel.SuccessOrFailure;
+
+            host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
+            
+            host.Description.Behaviors.Add(audit);
+
+            if (host.Credentials.ServiceCertificate.Certificate == null)
             {
                 Console.WriteLine(" Service started from Wrong Machine. (WCFService expected)\n >> ENTER");
                 Console.ReadLine();

@@ -11,7 +11,21 @@ namespace Contracts
     [DataContract]
     public class Korisnik
     {
+        readonly string id;
         double racun;
-        // rezervacije
+        Dictionary<int, Rezervacija> rezervacije = new Dictionary<int, Rezervacija>();
+
+        public Korisnik(string id, double racun)
+        {
+            this.id = id;
+            this.racun = racun;
+        }
+
+        [DataMember]
+        public string Id { get => id; }
+        [DataMember]
+        public double Racun { get => racun; set => racun = value; }
+        [DataMember]
+        public Dictionary<int, Rezervacija> Rezervacije { get => rezervacije; set => rezervacije = value; }
     }
 }
