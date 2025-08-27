@@ -1,28 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SecurityManager
 {
+    public enum AuditEventTypes
+    {
+        UspesnoDodavanje = 0,
+        UspesnaIzmena = 1,
+        NeuspesnaAutorizacija = 2,
+        NeuspesnoDodavanje = 3,
+        NeuspesnaIzmena = 4,
+        NeuspesnaAutentifikacija = 5,
+        UspesnaAutentifikacija = 6,
+        NeuspesnaRezervacija = 7,
+        NeuspesnoPlacanje = 8,
+        UspesnaRezervacija = 9,
+        UspesnoPlacanje = 10
+    }
+
     public class AuditEvents
     {
-        internal const string USPESNA_AUTENTIFIKACIJA = "Korisnik {0} se uspešno autentifikovao.";
-        internal const string NEUSPESNA_AUTENTIFIKACIJA = "Korisnik {0} nije prošao autentifikaciju.";
-        
-        internal const string NEUSPESNA_AUTORIZACIJA = "Korisnik {0} nije autorizovan za operaciju: {1}";
 
-        internal const string USPESNO_DODAVANJE = "Korisnik {0} je uspešno dodao koncert za id: {1} Naziv: {2}";
-        internal const string NEUSPESNO_DODAVANJE = "Korisnik {0} nije dodao koncert za id: {1} Naziv: {2} | Razlog: {3}";
+        private static ResourceManager resourceManager = null;
+        private static object resourceLock = new object();
 
-        internal const string USPESNA_IZMENA = "Korisnik {0} je uspešno izmenio koncert za id: {1} Naziv: {2}";
-        internal const string NEUSPESNA_IZMENA = "Korisnik {0} nije izmenio koncert za id: {1} Naziv: {2} | Razlog: {3}";
+        private static ResourceManager ResourceMgr
+        {
+            get
+            {
+                lock (resourceLock)
+                {
+                    if (resourceManager == null)
+                    {
+                        resourceManager = new ResourceManager(typeof(AuditEventsFile).ToString(), Assembly.GetExecutingAssembly());
+                    }
 
-        internal const string USPESNA_REZERVACIJA = ""; // TODO: popuni
-        internal const string NEUSPESNA_REZERVACIJA = ""; // TODO: popuni
+                    return resourceManager;
+                }
+            }
+        }
 
-        internal const string USPESNO_PLACANJE = ""; // TODO: popuni
-        internal const string NEUSPESNO_PLACANJE = ""; // TODO: popuni
+        public static string UspesnaAutentifikacija
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.UspesnaAutentifikacija.ToString()); }
+        }
+
+        public static string NeuspesnaAutentifikacija
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.NeuspesnaAutentifikacija.ToString()); }
+        }
+
+        public static string NeuspesnaAutorizacija
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.NeuspesnaAutorizacija.ToString()); }
+        }
+
+        public static string UspesnoDodavanje
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.UspesnoDodavanje.ToString()); }
+        }
+
+        public static string NeuspesnoDodavanje
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.NeuspesnoDodavanje.ToString()); }
+        }
+
+        public static string UspesnaIzmena
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.UspesnaIzmena.ToString()); }
+        }
+
+        public static string NeuspesnaIzmena
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.NeuspesnaIzmena.ToString()); }
+        }
+
+        public static string UspesnaRezervacija
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.UspesnaRezervacija.ToString()); }
+        }
+
+        public static string NeuspesnaRezervacija
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.NeuspesnaRezervacija.ToString()); }
+        }
+
+        public static string UspesnoPlacanje
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.UspesnoPlacanje.ToString()); }
+        }
+
+        public static string NeuspesnoPlacanje
+        {
+            get { return ResourceMgr.GetString(AuditEventTypes.NeuspesnoPlacanje.ToString()); }
+        }
     }
 }

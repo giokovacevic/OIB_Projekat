@@ -50,7 +50,7 @@ namespace Service
 
             if (userIdentity == null)
             {
-                throw new Exception("current user null"); //TODO: Log za currentUser: null
+                throw new Exception("current user was null"); 
             }
 
             if (AuthorizationManager.isAdmin(userIdentity))
@@ -86,14 +86,46 @@ namespace Service
             }
         }
 
-        public void NapraviRezervaciju() // TODO: NapraviRezervaciju
+        public void NapraviRezervaciju(int koncertId, int brojKarata, DateTime vreme) // TODO: NapraviRezervaciju
         {
-            throw new NotImplementedException();
+            var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
+
+            if (userIdentity == null)
+            {
+                throw new Exception("current user was null"); 
+            }
+
+            if(AuthorizationManager.isAdmin(userIdentity) || AuthorizationManager.isKorisnik(userIdentity))
+            {
+                // TODO: 
+            }
+            else
+            {
+                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Rezervacija za koncert");
+
+                Console.WriteLine("Nije autorizovan za NapraviRezervaciju(). Mora biti korisnik ili Admin"); //TODO: IZBRISI
+            }
         }
 
         public void PlatiRezervaciju() // TODO: PlatiRezervaciju
         {
-            throw new NotImplementedException();
+            var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
+
+            if (userIdentity == null)
+            {
+                throw new Exception("current user was null");
+            }
+
+            if (AuthorizationManager.isAdmin(userIdentity) || AuthorizationManager.isKorisnik(userIdentity))
+            {
+                // TODO: 
+            }
+            else
+            {
+                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Plaćanje Rezervacije");
+
+                Console.WriteLine("Nije autorizovan za NapraviRezervaciju(). Mora biti korisnik ili Admin"); //TODO: IZBRISI
+            }
         }
     }
 }

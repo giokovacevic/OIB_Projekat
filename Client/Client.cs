@@ -54,14 +54,28 @@ namespace Client
             }
         }
 
-        public void NapraviRezervaciju()
+        public void NapraviRezervaciju(int koncertId, int brojKarata, DateTime vreme)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.NapraviRezervaciju(koncertId, brojKarata, vreme);
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine("NapraviRezervaciju nije uspeo: " + exc.Message);
+            }
         }
 
-        public void PlatiRezervaciju()
+        public void PlatiRezervaciju() // TODO: PROMENI
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.PlatiRezervaciju();
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine("PlatiRezervaciju nije uspeo: " + exc.Message);
+            }
         }
 
         public void Dispose()

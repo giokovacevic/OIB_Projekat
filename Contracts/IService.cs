@@ -15,7 +15,7 @@ namespace Contracts
         [OperationContract]
         void IzmeniKoncert(int id, Koncert koncert);
         [OperationContract]
-        void NapraviRezervaciju();
+        void NapraviRezervaciju(int koncertId, int brojKarata, DateTime vreme);
         [OperationContract]
         void PlatiRezervaciju();
     }

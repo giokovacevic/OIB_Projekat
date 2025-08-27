@@ -36,7 +36,7 @@ namespace SecurityManager
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.USPESNA_AUTENTIFIKACIJA, username);
+                string message = String.Format(AuditEvents.UspesnaAutentifikacija, username);
                 log.WriteEntry(message);
             }
             else
@@ -49,7 +49,7 @@ namespace SecurityManager
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.NEUSPESNA_AUTENTIFIKACIJA, username);
+                string message = String.Format(AuditEvents.NeuspesnaAutentifikacija, username);
                 log.WriteEntry(message);
             }
             else
@@ -62,7 +62,7 @@ namespace SecurityManager
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.NEUSPESNA_AUTORIZACIJA, username, operation);
+                string message = String.Format(AuditEvents.NeuspesnaAutorizacija, username, operation);
                 log.WriteEntry(message);
             }
             else
@@ -75,7 +75,7 @@ namespace SecurityManager
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.USPESNO_DODAVANJE, username, id, name);
+                string message = String.Format(AuditEvents.UspesnoDodavanje, username, id, name);
                 log.WriteEntry(message);
             }
             else
@@ -88,7 +88,7 @@ namespace SecurityManager
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.NEUSPESNO_DODAVANJE, username, id, name, reason);
+                string message = String.Format(AuditEvents.NeuspesnoDodavanje, username, id, name, reason);
                 log.WriteEntry(message);
             }
             else
@@ -101,7 +101,7 @@ namespace SecurityManager
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.USPESNA_IZMENA, username, id, name);
+                string message = String.Format(AuditEvents.UspesnaIzmena, username, id, name);
                 log.WriteEntry(message);
             }
             else
@@ -114,7 +114,7 @@ namespace SecurityManager
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.NEUSPESNA_IZMENA, username, id, name, reason);
+                string message = String.Format(AuditEvents.NeuspesnaIzmena, username, id, name, reason);
                 log.WriteEntry(message);
             }
             else
@@ -123,7 +123,57 @@ namespace SecurityManager
             }
         }
 
-        // TODO: jos 4 2*2
+        public static void uspesnaRezervacija(string username, int brojKarata, string nazivKoncerta) 
+        {
+            if (log != null)
+            {
+                string message = String.Format(AuditEvents.UspesnaRezervacija, username, brojKarata, nazivKoncerta);
+                log.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException("Error in uspesnaRezervacija()");
+            }
+        }
+
+        public static void neuspesnaRezervacija(string username, string nazivKoncerta, string reason) 
+        {
+            if (log != null)
+            {
+                string message = String.Format(AuditEvents.NeuspesnaRezervacija, username, nazivKoncerta, reason);
+                log.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException("Error in neuspenaRezervacija()");
+            }
+        }
+
+        public static void uspesnoPlacanje(string username, int brojKarata, string nazivKoncerta, double iznos) 
+        {
+            if (log != null)
+            {
+                string message = String.Format(AuditEvents.UspesnoPlacanje, username, brojKarata, nazivKoncerta, iznos);
+                log.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException("Error in uspesnoPlacanje()");
+            }
+        }
+
+        public static void neuspesnoPlacanje(string username, int brojKarata, string nazivKoncerta, string reason) 
+        {
+            if (log != null)
+            {
+                string message = String.Format(AuditEvents.NeuspesnoPlacanje, username, brojKarata, nazivKoncerta, reason);
+                log.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException("Error in neuspesnoPlacanje()");
+            }
+        }
 
 
         public void Dispose()

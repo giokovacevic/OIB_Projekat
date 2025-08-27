@@ -44,6 +44,11 @@
   <ItemGroup>
     <Compile Include="Audit.cs" />
     <Compile Include="AuditEvents.cs" />
+    <Compile Include="AuditEventsFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AuditEventsFile.resx</DependentUpon>
+    </Compile>
     <Compile Include="AuthorizationManager.cs" />
     <Compile Include="ClientCertValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +59,12 @@
       <Project>{61F09B9D-BD03-4570-A94A-1D90FA22B974}</Project>
       <Name>Manager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AuditEventsFile.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AuditEventsFile.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
