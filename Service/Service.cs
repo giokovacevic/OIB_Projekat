@@ -36,7 +36,7 @@ namespace Service
                         else
                         {
                             Database.koncerti.Add(koncert.Id, koncert);
-                            
+
                             Audit.uspesnoDodavanje(username, koncert.Id, koncert.Naziv);
                         }
                     }

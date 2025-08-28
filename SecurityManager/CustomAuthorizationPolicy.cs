@@ -29,8 +29,7 @@ namespace SecurityManager
 
         public bool Evaluate(EvaluationContext evaluationContext, ref object state)
         {
-            if (!evaluationContext.Properties.TryGetValue("Identities", out object list))
-                return false;
+            if (!evaluationContext.Properties.TryGetValue("Identities", out object list)) return false;
 
             var identities = list as IList<IIdentity>;
             if (identities == null || identities.Count == 0)
@@ -41,7 +40,7 @@ namespace SecurityManager
             string role = IdentityManager.extractRole(identity);
             string username = IdentityManager.extractUsername(identity);
 
-            var principal = new CustomPrincipal(identity, username, role);
+            CustomPrincipal principal = new CustomPrincipal(identity, username, role);
             evaluationContext.Properties["Principal"] = principal;
             Thread.CurrentPrincipal = principal;
 
