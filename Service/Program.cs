@@ -43,10 +43,9 @@ namespace Service
             host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
             host.Description.Behaviors.Add(audit);
 
-            if (host.Credentials.ServiceCertificate.Certificate == null)
+            if (host.Credentials.ServiceCertificate.Certificate == null || !CertificateManager.getUsernameFromCertificate(host.Credentials.ServiceCertificate.Certificate).Equals("WCFService"))
             {
-                Console.WriteLine(" Servis je pokrenut sa pogrešne mašine. (WCFService оčekivan)\n >> ENTER");
-                Console.ReadLine();
+                Console.WriteLine(" Servis je pokrenut sa pogrešne mašine. (WCFService očekivan)\n >> ENTER");
             }
             else
             {
