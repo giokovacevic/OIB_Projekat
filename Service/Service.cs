@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Service
@@ -13,23 +14,31 @@ namespace Service
     {
         public void DodajKoncert(Koncert koncert) 
         {
-            var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
+            CustomPrincipal userIdentity = Thread.CurrentPrincipal as CustomPrincipal;
             
             if(userIdentity == null)
             {
                 throw new Exception("current user was null"); 
             }
 
-            string username = Manager.IdentityManager.extractUsername(userIdentity);
+            string username = userIdentity.Username;
 
-            if (AuthorizationManager.isAdmin(userIdentity))
+            if (userIdentity.IsInRole("Dodavanje"))
             {
                 if(!Database.koncerti.ContainsKey(koncert.Id))
                 {
                     if(!(koncert.VremePocetka <= DateTime.Now))
                     {
-                        Database.koncerti.Add(koncert.Id, koncert);
-                        Audit.uspesnoDodavanje(username, koncert.Id, koncert.Naziv);
+                        if(koncert.CenaKarte < 0.0)
+                        {
+                            Audit.neuspesnoDodavanje(username, koncert.Id, koncert.Naziv, "Cena karte nije validna.");
+                        }
+                        else
+                        {
+                            Database.koncerti.Add(koncert.Id, koncert);
+                            
+                            Audit.uspesnoDodavanje(username, koncert.Id, koncert.Naziv);
+                        }
                     }
                     else
                     {
@@ -49,16 +58,16 @@ namespace Service
 
         public void IzmeniKoncert(int id, Koncert koncert) 
         {
-            var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
+            CustomPrincipal userIdentity = Thread.CurrentPrincipal as CustomPrincipal;
 
             if (userIdentity == null)
             {
                 throw new Exception("current user was null"); 
             }
 
-            string username = Manager.IdentityManager.extractUsername(userIdentity);
+            string username = userIdentity.Username;
 
-            if (AuthorizationManager.isAdmin(userIdentity))
+            if (userIdentity.IsInRole("Izmena"))
             {
                 if(koncert.Id == id)
                 {
@@ -92,16 +101,16 @@ namespace Service
 
         public void NapraviRezervaciju(int id, int koncertId, int brojKarata)
         {
-            var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
+            CustomPrincipal userIdentity = Thread.CurrentPrincipal as CustomPrincipal;
 
             if (userIdentity == null)
             {
                 throw new Exception("current user was null"); 
             }
 
-            string username = Manager.IdentityManager.extractUsername(userIdentity);
+            string username = userIdentity.Username;
 
-            if(AuthorizationManager.isAdmin(userIdentity) || AuthorizationManager.isKorisnik(userIdentity))
+            if(userIdentity.IsInRole("Rezervacija"))
             {
 
                 if (Database.koncerti.ContainsKey(koncertId)) // nepostojeci koncert
@@ -131,16 +140,16 @@ namespace Service
 
         public void PlatiRezervaciju(int id) 
         {
-            var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
+            CustomPrincipal userIdentity = Thread.CurrentPrincipal as CustomPrincipal;
 
             if (userIdentity == null)
             {
                 throw new Exception("current user was null");
             }
 
-            string username = Manager.IdentityManager.extractUsername(userIdentity);
+            string username = userIdentity.Username;
 
-            if (AuthorizationManager.isAdmin(userIdentity) || AuthorizationManager.isKorisnik(userIdentity))
+            if (userIdentity.IsInRole("Placanje"))
             {
                 if (Database.korisnici[username].Rezervacije.ContainsKey(id))
                 {
@@ -175,7 +184,7 @@ namespace Service
             }
             else
             {
-                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Plaćanje Rezervacije");
+                Audit.neuspesnaAutorizacija(username, "Plaćanje Rezervacije");
             }
         }
 

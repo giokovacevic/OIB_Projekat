@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manager
+namespace SecurityManager
 {
     public class IdentityManager
     {
@@ -21,7 +21,7 @@ namespace Manager
                 throw new InvalidOperationException("Invalid CN in SubjectName");
             }
         }
-        public static string extractRole(System.Security.Principal.IIdentity identity) 
+        public static string extractRole(System.Security.Principal.IIdentity identity)
         {
             string identityData = identity.Name.Split(';')[0];
             string[] identityDataParts = identityData.Split(',');

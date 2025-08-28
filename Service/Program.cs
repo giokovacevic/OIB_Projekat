@@ -3,6 +3,7 @@ using Manager;
 using SecurityManager;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Policy;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
@@ -30,17 +31,16 @@ namespace Service
 
             host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
             host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
-
             host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
-
             host.Credentials.ServiceCertificate.Certificate = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+
+            host.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
+            host.Authorization.ExternalAuthorizationPolicies = new List<IAuthorizationPolicy> { new CustomAuthorizationPolicy() }.AsReadOnly();
 
             ServiceSecurityAuditBehavior audit = new ServiceSecurityAuditBehavior();
             audit.AuditLogLocation = AuditLogLocation.Application;
             audit.ServiceAuthorizationAuditLevel = AuditLevel.SuccessOrFailure;
-
             host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
-            
             host.Description.Behaviors.Add(audit);
 
             if (host.Credentials.ServiceCertificate.Certificate == null)

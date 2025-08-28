@@ -31,11 +31,14 @@ namespace Client
                 Console.WriteLine(" ENTER >> Dodavanje");
                 Console.ReadLine();
 
-                Koncert noviKoncert = new Koncert(10, "Jazz Group", new DateTime(2025, 9, 20), "Novi Sad", 1.0);
+                Koncert noviKoncert = new Koncert(10, "DJ Novi", new DateTime(2025, 9, 20), "Novi Sad", 1.0);
                 proxy.DodajKoncert(noviKoncert); // normalno
                 proxy.DodajKoncert(noviKoncert); // vec dodat koncert
+               
+                Koncert pogresnaCenaKoncert = new Koncert(17, "DJ Negativni", new DateTime(2025, 9, 27), "Beograd", -0.3);
+                proxy.DodajKoncert(pogresnaCenaKoncert); // negativni
 
-                Koncert preraniKoncert = new Koncert(15, "DJ Early", new DateTime(2025, 6, 15), "Novi Sad", 0.5);
+                Koncert preraniKoncert = new Koncert(15, "DJ Prerani", new DateTime(2025, 6, 15), "Novi Sad", 0.5);
                 proxy.DodajKoncert(preraniKoncert); // prerani
 
                 Console.WriteLine(proxy.getUserInterface());
@@ -44,9 +47,9 @@ namespace Client
                 Console.WriteLine(" ENTER >> Izmene");
                 Console.ReadLine();
 
-                proxy.IzmeniKoncert(10, new Koncert(10, "Jazz Group", new DateTime(2025, 9, 10), "Novi Sad", 1.5)); // normalna
-                proxy.IzmeniKoncert(7, new Koncert(7, "DJ Three", new DateTime(2025, 9, 13), "Novi Sad", 0.6)); // nepostojeci
-                proxy.IzmeniKoncert(11, new Koncert(10, "DJ Johnson", new DateTime(2025, 10, 1), "Beograd", 0.8)); // razliciti id-ovi
+                proxy.IzmeniKoncert(10, new Koncert(10, "DJ Promenjeni", new DateTime(2025, 9, 10), "Novi Sad", 1.5)); // normalna
+                proxy.IzmeniKoncert(7, new Koncert(7, "DJ Pogresan", new DateTime(2025, 9, 13), "Novi Sad", 0.6)); // nepostojeci
+                proxy.IzmeniKoncert(11, new Koncert(10, "DJ Drugaciji", new DateTime(2025, 10, 1), "Beograd", 0.8)); // razliciti id-ovi
                 proxy.IzmeniKoncert(noviKoncert.Id, new Koncert(noviKoncert.Id, noviKoncert.Naziv, new DateTime(2025, 6, 15), noviKoncert.Lokacija, 0.9)); // prerani datum
 
                 Console.WriteLine(proxy.getUserInterface());
