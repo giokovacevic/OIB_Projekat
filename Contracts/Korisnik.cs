@@ -27,5 +27,16 @@ namespace Contracts
         public double Racun { get => racun; set => racun = value; }
         [DataMember]
         public Dictionary<int, Rezervacija> Rezervacije { get => rezervacije; set => rezervacije = value; }
+
+        public override string ToString()
+        {
+            string str = "";
+            str = str + id + "  račun: " + racun + "\n---------\n";
+            foreach(var rezervacija in rezervacije.Values)
+            {
+                str = str + rezervacija.ToString();
+            }
+            return str;
+        }
     }
 }

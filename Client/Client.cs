@@ -54,11 +54,11 @@ namespace Client
             }
         }
 
-        public void NapraviRezervaciju(int koncertId, int brojKarata, DateTime vreme)
+        public void NapraviRezervaciju(int id, int koncertId, int brojKarata)
         {
             try
             {
-                factory.NapraviRezervaciju(koncertId, brojKarata, vreme);
+                factory.NapraviRezervaciju(id, koncertId, brojKarata);
             }
             catch (Exception exc)
             {
@@ -66,11 +66,11 @@ namespace Client
             }
         }
 
-        public void PlatiRezervaciju() // TODO: PROMENI
+        public void PlatiRezervaciju(int id) 
         {
             try
             {
-                factory.PlatiRezervaciju();
+                factory.PlatiRezervaciju(id);
             }
             catch (Exception exc)
             {
@@ -78,13 +78,34 @@ namespace Client
             }
         }
 
+        public string getUserInterface()
+        {
+            try
+            {
+                return factory.getUserInterface();
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine("printDatabase nije uspeo: " + exc.Message);
+            }
+
+            return "";
+        }
+
         public void Dispose()
         {
-            if (this.factory != null)
+            try
             {
-                this.factory = null;
+                if (this.factory != null)
+                {
+                    this.factory = null;
+                }
+                this.Close();
             }
-            this.Close();
+            catch(CommunicationObjectFaultedException exc)
+            {
+            }
+            
         }
     }
 }

@@ -19,11 +19,10 @@ namespace SecurityManager
 
             if (!srvCert.Issuer.Equals(certificate.Issuer))
             {
-                Console.Write("Neuspesana autentifikacija"); // TODO: IZBRISI OVO
                 throw new Exception("Failed to authenticate");
             }
 
-            Console.WriteLine("Succesfully authenticated Client");   // TODO: IZBRISI OVO
+            Console.WriteLine("Korisnik je autentifikovan");  
         }
     }
 }

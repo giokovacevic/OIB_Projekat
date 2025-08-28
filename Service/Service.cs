@@ -20,27 +20,30 @@ namespace Service
                 throw new Exception("current user was null"); 
             }
 
-            if(AuthorizationManager.isAdmin(userIdentity))
+            string username = Manager.IdentityManager.extractUsername(userIdentity);
+
+            if (AuthorizationManager.isAdmin(userIdentity))
             {
                 if(!Database.koncerti.ContainsKey(koncert.Id))
                 {
-                    Database.koncerti.Add(koncert.Id, koncert);
-                    Audit.uspesnoDodavanje(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv);
-                    
-                    Console.WriteLine("Koncert je dodat. (DodajKoncert)"); //TODO: IZBRISI
+                    if(!(koncert.VremePocetka <= DateTime.Now))
+                    {
+                        Database.koncerti.Add(koncert.Id, koncert);
+                        Audit.uspesnoDodavanje(username, koncert.Id, koncert.Naziv);
+                    }
+                    else
+                    {
+                        Audit.neuspesnoDodavanje(username, koncert.Id, koncert.Naziv, "Vreme početka nije validno.");
+                    }  
                 }
                 else
                 {
-                    Audit.neuspesnoDodavanje(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv, "Koncert već postoji.");
-                    
-                    Console.WriteLine("Koncert sa tim id-om vec postoji. (DodajKoncert)"); //TODO: IZBRISI
+                    Audit.neuspesnoDodavanje(username, koncert.Id, koncert.Naziv, "Koncert već postoji.");
                 }   
             }
             else
             {
-                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Dodavanje koncerta.");
-                
-                Console.WriteLine("Nije autorizovan za DodajKoncert()"); //TODO: IZBRISI
+                Audit.neuspesnaAutorizacija(username, "Dodavanje koncerta.");
             }
         }
 
@@ -53,40 +56,41 @@ namespace Service
                 throw new Exception("current user was null"); 
             }
 
+            string username = Manager.IdentityManager.extractUsername(userIdentity);
+
             if (AuthorizationManager.isAdmin(userIdentity))
             {
                 if(koncert.Id == id)
                 {
                     if (Database.koncerti.ContainsKey(id))
                     {
-                        Database.koncerti[id] = koncert;
-                        Audit.uspesnaIzmena(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv);
-
-                        Console.WriteLine("Koncert sa je uspesno izmenjen. (IzmeniKoncert)"); //TODO: IZBRISI
+                        if (!(koncert.VremePocetka <= DateTime.Now))
+                        {
+                            Database.koncerti[id] = koncert;
+                            Audit.uspesnaIzmena(username, koncert.Id, koncert.Naziv);
+                        }
+                        else
+                        {
+                            Audit.neuspesnaIzmena(username, koncert.Id, koncert.Naziv, "Vreme početka nije validno.");
+                        } 
                     }
                     else
                     {
-                        Audit.neuspesnaIzmena(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv, "Nepostojeći koncert");
-
-                        Console.WriteLine("Koncert sa tim id-om ne postoji. (IzmeniKoncert)"); //TODO: IZBRISI
+                        Audit.neuspesnaIzmena(username, koncert.Id, koncert.Naziv, "Nepostojeći koncert");
                     }
                 }
                 else
                 {
-                    Audit.neuspesnaIzmena(Manager.IdentityManager.extractUsername(userIdentity), koncert.Id, koncert.Naziv, "Nedozvoljena izmena Id-a");
-                    
-                    Console.WriteLine("Ne moze se menjati koncert sa razlicitim id-om (IzmeniKoncert)"); //TODO: IZBRISI
+                    Audit.neuspesnaIzmena(username, koncert.Id, koncert.Naziv, "Nedozvoljena izmena Id-a");
                 }
             }
             else
             {
-                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Izmena koncerta.");
-
-                Console.WriteLine("Nije autorizovan za IzmeniKoncert(). Mora biti Admin"); //TODO: IZBRISI
+                Audit.neuspesnaAutorizacija(username, "Izmena koncerta.");
             }
         }
 
-        public void NapraviRezervaciju(int koncertId, int brojKarata, DateTime vreme) // TODO: NapraviRezervaciju
+        public void NapraviRezervaciju(int id, int koncertId, int brojKarata)
         {
             var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
 
@@ -95,19 +99,37 @@ namespace Service
                 throw new Exception("current user was null"); 
             }
 
+            string username = Manager.IdentityManager.extractUsername(userIdentity);
+
             if(AuthorizationManager.isAdmin(userIdentity) || AuthorizationManager.isKorisnik(userIdentity))
             {
-                // TODO: 
+
+                if (Database.koncerti.ContainsKey(koncertId)) // nepostojeci koncert
+                {
+                    if (!Database.korisnici[username].Rezervacije.ContainsKey(id)) // vec postoji taj id
+                    {
+                        Database.korisnici[username].Rezervacije.Add(id, new Rezervacija(id, koncertId, DateTime.Now, brojKarata, StanjeRezervacije.POTREBNO_PLATITI));
+                       
+                        Audit.uspesnaRezervacija(username, brojKarata, Database.koncerti[koncertId].Naziv);
+                    }
+                    else
+                    {
+                        Audit.neuspesnaRezervacija(username, Database.koncerti[koncertId].Naziv, "Rezervacija tog Id-a već postoji.");
+                    }
+                }
+                else
+                {
+                    Audit.neuspesnaRezervacija(username, "?", "Nepostojeći koncert.");
+                }
+                
             }
             else
             {
-                Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Rezervacija za koncert");
-
-                Console.WriteLine("Nije autorizovan za NapraviRezervaciju(). Mora biti korisnik ili Admin"); //TODO: IZBRISI
+                Audit.neuspesnaAutorizacija(username, "Rezervacija za koncert");
             }
         }
 
-        public void PlatiRezervaciju() // TODO: PlatiRezervaciju
+        public void PlatiRezervaciju(int id) 
         {
             var userIdentity = ServiceSecurityContext.Current.PrimaryIdentity;
 
@@ -116,16 +138,62 @@ namespace Service
                 throw new Exception("current user was null");
             }
 
+            string username = Manager.IdentityManager.extractUsername(userIdentity);
+
             if (AuthorizationManager.isAdmin(userIdentity) || AuthorizationManager.isKorisnik(userIdentity))
             {
-                // TODO: 
+                if (Database.korisnici[username].Rezervacije.ContainsKey(id))
+                {
+                    Rezervacija rezervacija = Database.korisnici[username].Rezervacije[id];
+                    if (rezervacija.Stanje == StanjeRezervacije.POTREBNO_PLATITI)
+                    {
+                        double potrebanIznos = rezervacija.KolicinaKarata * Database.koncerti[rezervacija.IdKoncerta].CenaKarte;
+
+                        Korisnik korisnik = Database.korisnici[username];
+                        
+                        if((korisnik.Racun - potrebanIznos) < 0)
+                        {
+                            Audit.neuspesnoPlacanje(username, Database.koncerti[rezervacija.IdKoncerta].Naziv, "Nedovoljno sredstava na računu.");
+                        }
+                        else
+                        {
+                            korisnik.Racun = korisnik.Racun - potrebanIznos;
+                            rezervacija.Stanje = StanjeRezervacije.PLACENA;
+                            
+                            Audit.uspesnoPlacanje(username, Database.koncerti[rezervacija.IdKoncerta].Naziv, potrebanIznos);
+                        }
+                    }
+                    else
+                    {
+                        Audit.neuspesnoPlacanje(username, Database.koncerti[rezervacija.IdKoncerta].Naziv, "Rezervacija je već plaćena.");
+                    }
+                }
+                else
+                {
+                    Audit.neuspesnoPlacanje(username, "?", "Nepostojeća rezervacija.");
+                }
             }
             else
             {
                 Audit.neuspesnaAutorizacija(Manager.IdentityManager.extractUsername(userIdentity), "Plaćanje Rezervacije");
-
-                Console.WriteLine("Nije autorizovan za NapraviRezervaciju(). Mora biti korisnik ili Admin"); //TODO: IZBRISI
             }
+        }
+
+        public string getUserInterface()
+        {
+            string str = "";
+            foreach(Koncert koncert in Database.koncerti.Values)
+            {
+                str = str + koncert.ToString();
+            }
+
+            str = str + "\n";
+            foreach (Korisnik korisnik in Database.korisnici.Values)
+            {
+                str = str + korisnik.ToString();
+            }
+
+            return str;
         }
     }
 }

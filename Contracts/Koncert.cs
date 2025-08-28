@@ -34,6 +34,13 @@ namespace Contracts
         [DataMember]
         public string Lokacija { get => lokacija; set => lokacija = value; }
         [DataMember]
-        public double CenaKarte { get => cenaKarte; set => cenaKarte = value; }      
+        public double CenaKarte { get => cenaKarte; set => cenaKarte = value; }
+
+        public override string ToString()
+        {
+            string str = "";
+            str = str + id + ": " + naziv + " Datum:  " + vremePocetka + "  Lokacija: " + lokacija + "  Cena: " + cenaKarte + "\n";
+            return str;
+        }
     }
 }

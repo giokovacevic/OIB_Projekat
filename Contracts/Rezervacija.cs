@@ -44,5 +44,12 @@ namespace Contracts
         public int KolicinaKarata { get => kolicinaKarata; set => kolicinaKarata = value; }
         [DataMember]
         public StanjeRezervacije Stanje { get => stanje; set => stanje = value; }
+
+        public override string ToString()
+        {
+            string str = "";
+            str = " - Rezervacija: " + id.ToString() + " koncertId: " + idKoncerta.ToString() + "  Datum: " + vremeRezervacije + "  Broj: " + kolicinaKarata + " Stanje: " + stanje.ToString() + "\n";
+            return str;
+        }
     }
 }

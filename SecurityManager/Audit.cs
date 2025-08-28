@@ -149,11 +149,11 @@ namespace SecurityManager
             }
         }
 
-        public static void uspesnoPlacanje(string username, int brojKarata, string nazivKoncerta, double iznos) 
+        public static void uspesnoPlacanje(string username, string nazivKoncerta, double iznos) 
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.UspesnoPlacanje, username, brojKarata, nazivKoncerta, iznos);
+                string message = String.Format(AuditEvents.UspesnoPlacanje, username, nazivKoncerta, iznos);
                 log.WriteEntry(message);
             }
             else
@@ -162,11 +162,11 @@ namespace SecurityManager
             }
         }
 
-        public static void neuspesnoPlacanje(string username, int brojKarata, string nazivKoncerta, string reason) 
+        public static void neuspesnoPlacanje(string username, string nazivKoncerta, string reason) 
         {
             if (log != null)
             {
-                string message = String.Format(AuditEvents.NeuspesnoPlacanje, username, brojKarata, nazivKoncerta, reason);
+                string message = String.Format(AuditEvents.NeuspesnoPlacanje, username, nazivKoncerta, reason);
                 log.WriteEntry(message);
             }
             else
