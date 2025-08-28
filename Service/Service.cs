@@ -75,8 +75,16 @@ namespace Service
                     {
                         if (!(koncert.VremePocetka <= DateTime.Now))
                         {
-                            Database.koncerti[id] = koncert;
-                            Audit.uspesnaIzmena(username, koncert.Id, koncert.Naziv);
+                            if(koncert.CenaKarte < 0.0)
+                            {
+                                Audit.neuspesnaIzmena(username, koncert.Id, koncert.Naziv, "Cena nije validna.");
+                            }
+                            else
+                            {
+                                Database.koncerti[id] = koncert;
+                                
+                                Audit.uspesnaIzmena(username, koncert.Id, koncert.Naziv);
+                            } 
                         }
                         else
                         {

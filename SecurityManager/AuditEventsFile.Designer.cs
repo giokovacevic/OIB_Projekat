@@ -61,7 +61,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} nije prošao autentifikaciju..
+        ///   Looks up a localized string similar to Korisnik {0} NIJE prošao autentifikaciju..
         /// </summary>
         internal static string NeuspesnaAutentifikacija {
             get {
@@ -70,7 +70,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} nije autorizovan za operaciju: {1}.
+        ///   Looks up a localized string similar to Korisnik {0} NIJE autorizovan za operaciju: {1}.
         /// </summary>
         internal static string NeuspesnaAutorizacija {
             get {
@@ -79,7 +79,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} nije izmenio koncert za id: {1} Naziv: {2} | Razlog: {3}.
+        ///   Looks up a localized string similar to Korisnik {0} NIJE izmenio koncert za id: {1} Naziv: {2} | Razlog: {3}.
         /// </summary>
         internal static string NeuspesnaIzmena {
             get {
@@ -88,7 +88,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} nije uspeo da rezerviše karte za koncert {1} | Razlog: {2}.
+        ///   Looks up a localized string similar to Korisnik {0} NIJE uspeo da rezerviše karte za koncert {1} | Razlog: {2}.
         /// </summary>
         internal static string NeuspesnaRezervacija {
             get {
@@ -97,7 +97,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} nije dodao koncert za id: {1} Naziv: {2} | Razlog: {3}.
+        ///   Looks up a localized string similar to Korisnik {0} NIJE dodao koncert za id: {1} Naziv: {2} | Razlog: {3}.
         /// </summary>
         internal static string NeuspesnoDodavanje {
             get {
@@ -106,7 +106,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} nije uspeo da plati rezervaciju za koncert {1} | Razlog: {2}.
+        ///   Looks up a localized string similar to Korisnik {0} NIJE uspeo da plati rezervaciju za koncert {1} | Razlog: {2}.
         /// </summary>
         internal static string NeuspesnoPlacanje {
             get {
@@ -115,7 +115,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} se uspešno autentifikovao..
+        ///   Looks up a localized string similar to Korisnik {0} se USPEŠNO autentifikovao..
         /// </summary>
         internal static string UspesnaAutentifikacija {
             get {
@@ -124,7 +124,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} je uspešno izmenio koncert za id: {1} Naziv: {2}.
+        ///   Looks up a localized string similar to Korisnik {0} je USPEŠNO izmenio koncert za id: {1} Naziv: {2}.
         /// </summary>
         internal static string UspesnaIzmena {
             get {
@@ -133,7 +133,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} je uspešno rezervisao karte (količina: {1}) za koncert {2}..
+        ///   Looks up a localized string similar to Korisnik {0} je USPEŠNO rezervisao karte (količina: {1}) za koncert {2}..
         /// </summary>
         internal static string UspesnaRezervacija {
             get {
@@ -142,7 +142,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} je uspešno dodao koncert za id: {1} Naziv: {2}.
+        ///   Looks up a localized string similar to Korisnik {0} je USPEŠNO dodao koncert za id: {1} Naziv: {2}.
         /// </summary>
         internal static string UspesnoDodavanje {
             get {
@@ -151,7 +151,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Korisnik {0} je uspešno platio rezervaciju za koncert {1} u iznosu od: {2}.
+        ///   Looks up a localized string similar to Korisnik {0} je USPEŠNO platio rezervaciju za koncert {1} u iznosu od: {2}.
         /// </summary>
         internal static string UspesnoPlacanje {
             get {

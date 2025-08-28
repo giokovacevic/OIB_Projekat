@@ -51,6 +51,7 @@ namespace Client
                 proxy.IzmeniKoncert(7, new Koncert(7, "DJ Pogresan", new DateTime(2025, 9, 13), "Novi Sad", 0.6)); // nepostojeci
                 proxy.IzmeniKoncert(11, new Koncert(10, "DJ Drugaciji", new DateTime(2025, 10, 1), "Beograd", 0.8)); // razliciti id-ovi
                 proxy.IzmeniKoncert(noviKoncert.Id, new Koncert(noviKoncert.Id, noviKoncert.Naziv, new DateTime(2025, 6, 15), noviKoncert.Lokacija, 0.9)); // prerani datum
+                proxy.IzmeniKoncert(10, new Koncert(10, "DJ Negativni", new DateTime(2025, 9, 14), "Novi Sad", -1.7)); // negativni
 
                 Console.WriteLine(proxy.getUserInterface());
 

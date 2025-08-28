@@ -118,36 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="UspesnaAutentifikacija" xml:space="preserve">
-    <value>Korisnik {0} se uspešno autentifikovao.</value>
+    <value>Korisnik {0} se USPEŠNO autentifikovao.</value>
   </data>
   <data name="NeuspesnaAutentifikacija" xml:space="preserve">
-    <value>Korisnik {0} nije prošao autentifikaciju.</value>
+    <value>Korisnik {0} NIJE prošao autentifikaciju.</value>
   </data>
   <data name="NeuspesnaAutorizacija" xml:space="preserve">
-    <value>Korisnik {0} nije autorizovan za operaciju: {1}</value>
+    <value>Korisnik {0} NIJE autorizovan za operaciju: {1}</value>
   </data>
   <data name="NeuspesnoDodavanje" xml:space="preserve">
-    <value>Korisnik {0} nije dodao koncert za id: {1} Naziv: {2} | Razlog: {3}</value>
+    <value>Korisnik {0} NIJE dodao koncert za id: {1} Naziv: {2} | Razlog: {3}</value>
   </data>
   <data name="UspesnoDodavanje" xml:space="preserve">
-    <value>Korisnik {0} je uspešno dodao koncert za id: {1} Naziv: {2}</value>
+    <value>Korisnik {0} je USPEŠNO dodao koncert za id: {1} Naziv: {2}</value>
   </data>
   <data name="UspesnaIzmena" xml:space="preserve">
-    <value>Korisnik {0} je uspešno izmenio koncert za id: {1} Naziv: {2}</value>
+    <value>Korisnik {0} je USPEŠNO izmenio koncert za id: {1} Naziv: {2}</value>
   </data>
   <data name="NeuspesnaIzmena" xml:space="preserve">
-    <value>Korisnik {0} nije izmenio koncert za id: {1} Naziv: {2} | Razlog: {3}</value>
+    <value>Korisnik {0} NIJE izmenio koncert za id: {1} Naziv: {2} | Razlog: {3}</value>
   </data>
   <data name="UspesnoPlacanje" xml:space="preserve">
-    <value>Korisnik {0} je uspešno platio rezervaciju za koncert {1} u iznosu od: {2}</value>
+    <value>Korisnik {0} je USPEŠNO platio rezervaciju za koncert {1} u iznosu od: {2}</value>
   </data>
   <data name="NeuspesnoPlacanje" xml:space="preserve">
-    <value>Korisnik {0} nije uspeo da plati rezervaciju za koncert {1} | Razlog: {2}</value>
+    <value>Korisnik {0} NIJE uspeo da plati rezervaciju za koncert {1} | Razlog: {2}</value>
   </data>
   <data name="NeuspesnaRezervacija" xml:space="preserve">
-    <value>Korisnik {0} nije uspeo da rezerviše karte za koncert {1} | Razlog: {2}</value>
+    <value>Korisnik {0} NIJE uspeo da rezerviše karte za koncert {1} | Razlog: {2}</value>
   </data>
   <data name="UspesnaRezervacija" xml:space="preserve">
-    <value>Korisnik {0} je uspešno rezervisao karte (količina: {1}) za koncert {2}.</value>
+    <value>Korisnik {0} je USPEŠNO rezervisao karte (količina: {1}) za koncert {2}.</value>
   </data>
 </root>
